@@ -1,0 +1,19 @@
+{"sections":[
+	{"position":{"x":0,"y":500},
+	"angle":0,
+	"direction":{"x":1,"y":0},
+	"distance":1000
+	},
+	{"position":{"x":1000,"y":500},
+	"angle":90,
+	"direction":{"x":0,"y":1},
+	"distance":1000}
+	],
+ "cars":[
+	{"start_position":{"x":0,"y":500},
+	"angle":0,
+	"direction":{"x":1,"y":0},
+	"width":30,
+	"height":20}
+	]
+}
