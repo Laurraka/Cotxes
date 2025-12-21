@@ -11,7 +11,7 @@ class LinearEquation:
             self.x = x0 #ens guardem un punt per si de cas
             self.y = y0
 
-        elif len(args) == 2 and isinstance(args[0], (int, float)):  # angle i WPoint
+        elif len(args) == 2 and isinstance(args[0], (int, float)):  # angle i WPoint, retorna true si valor posat és del tipus especificat
             angle, p = args
             if angle != (math.pi / 2) and angle != (3 * math.pi / 2):
                 self.m = math.tan(angle)

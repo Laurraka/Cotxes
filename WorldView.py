@@ -25,14 +25,13 @@ class WorldView:
 
     #Transfromada Word to View  (món a pantalla)
     def worldToView(self, Wp: WPoint) -> VPoint:
-        wy = self.wMax.y - Wp.y
-       
-        # Evitar divisions per zero si el món/finestra té mida 0
+
+        # Evitar divisions per zero si el món/finestra té mida 0. Transformem punts a escala
         scale_x = (self.vMax.x - self.vMin.x) / (self.wMax.x - self.wMin.x) if (self.wMax.x - self.wMin.x) != 0 else 0.0
         scale_y = (self.vMax.y - self.vMin.y) / (self.wMax.y - self.wMin.y) if (self.wMax.y - self.wMin.y) != 0 else 0.0
 
         vx = int((Wp.x - self.wMin.x) * scale_x + self.vMin.x)
-        vy = int(wy * scale_y + self.vMin.y)
+        vy = int(self.wMax.y - Wp.y * scale_y + self.vMin.y)
         return VPoint(vx, vy)
 
     def worldToViewXY(self, x: float, y: float) -> VPoint:
@@ -41,14 +40,13 @@ class WorldView:
         return self.worldToView(WPoint(x, y))
 
      #Transfromada View to World (pantalla a món)
-    def viewToWorld(self, Vp: VPoint) -> WPoint:
-        vy = self.vMax.y - Vp.y
+    def viewToWorld(self, Vp: VPoint) -> WPoint: 
 
         denom_x = (self.vMax.x - self.vMin.x)
         denom_y = (self.vMax.y - self.vMin.y)
 
         wx = ((Vp.x - self.vMin.x) * (self.wMax.x - self.wMin.x) / denom_x) + self.wMin.x if denom_x != 0 else self.wMin.x
-        wy = ((vy - self.vMin.y) * (self.wMax.y - self.wMin.y) / denom_y) + self.wMin.y if denom_y != 0 else self.wMin.y
+        wy = ((self.vMax.y - Vp.y - self.vMin.y) * (self.wMax.y - self.wMin.y) / denom_y) + self.wMin.y if denom_y != 0 else self.wMin.y
 
         return WPoint(wx, wy)
 

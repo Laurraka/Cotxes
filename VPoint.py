@@ -5,5 +5,5 @@ class VPoint:   #x,y són enters, ja que són pixels de pantalla
         self.y=y
 
     def __repr__(self):
-        return f"({self.x},{self.y})"
+        return f"({self.x},{self.y})" 
     
