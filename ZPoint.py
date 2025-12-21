@@ -1,5 +1,4 @@
-
-class VPoint:   #x,y són enters, ja que són pixels de pantalla
+class ZPoint:   #x,y són enters, ja que són pixels de pantalla
     def __init__(self,x,y):
         self.x=x
         self.y=y

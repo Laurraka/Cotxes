@@ -1,6 +1,6 @@
 from LinearEquation import *
 from WPoint import *
-from WorldView import *
+from pantalla import *
 
 
 #################################################################
