@@ -35,7 +35,7 @@ class Pantalla:
 
     def WorldToZoomXY(self, x: float, y: float) -> ZPoint:
         #Permet transformar a partir de 2 valors x,y en lloc d'un WPoint
-        
+   
         return self.WorldToZoom(WPoint(x, y))
 
      #Transfromada View to World (pantalla a món)
@@ -53,8 +53,6 @@ class Pantalla:
         #Permet transformar a partir de 2 valors x,y en lloc d'un VPoint
         return self.ZoomToWorld(ZPoint(x, y))
     
-    def TranslateZoom(self,dx,dy):
-        self.wMin.x+=dx
-        self.wMax.x+=dx
+    def TranslateWorld(self,dy):
         self.wMin.y+=dy
         self.wMax.y+=dy
