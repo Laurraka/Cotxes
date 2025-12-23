@@ -16,7 +16,7 @@ tk.bind("<Escape>", lambda e:tk.destroy())
 ample_window = tk.winfo_screenwidth()
 alt_window = tk.winfo_screenheight()
 
-screen=Pantalla(WPoint(0,0),WPoint(281.25,500),
+screen=Pantalla(WPoint(0,0),WPoint(500,281.25),
              ZPoint(0,0),ZPoint(ample_window,alt_window))
 
 c1=Cotxe(1210,1500,10,8,v=1)
@@ -25,7 +25,7 @@ cotxes=[c1,c2]
 
 joc=Joc()
 
-while True:
+for i in range(0,2):
     w.delete("all")
     joc.construir_carretera(screen.wMin,screen.wMax,w,screen)
     screen.TranslateWorld(1)
