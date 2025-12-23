@@ -29,39 +29,39 @@ class Joc:
         L2=LinearEquation(WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p2']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p2']['y']),
                           WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p4']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p4']['y']))
         
-        pW1=WPoint(L1.getX(wMin.y),wMin.y)
-        pW2=WPoint(L2.getX(wMin.y),wMin.y)
-
-        print(pW1, pW2)
-        
-        pZ1=screen.WorldToZoomXY(L1.getX(wMin.y),wMin.y)
-        pZ2=screen.WorldToZoomXY(L2.getX(wMin.y),wMin.y)
-
-        #print(pZ1,pZ2)
-
+        p1=screen.WorldToZoomXY(L1.getX(wMin.y),wMin.y)
+        p2=screen.WorldToZoomXY(L2.getX(wMin.y),wMin.y)
 
         L3=LinearEquation(WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p1']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p1']['y']),
                           WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p3']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p3']['y']))
         L4=LinearEquation(WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p2']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p2']['y']),
                           WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p4']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p4']['y']))
         
-        pZ3=screen.WorldToZoomXY(L3.getX(wMax.y),wMax.y)
-        pZ4=screen.WorldToZoomXY(L4.getX(wMax.y),wMax.y)
-
-        #print(pZ3,pZ4)
+        p3=screen.WorldToZoomXY(L3.getX(wMax.y),wMax.y)
+        p4=screen.WorldToZoomXY(L4.getX(wMax.y),wMax.y)
 
         i=primer_tram
 
         q1=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(primer_tram)]['p3']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p3']['y'])
         q2=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(primer_tram)]['p4']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p4']['y'])
 
-        # w.create_polygon(
-        #     p1.x, p1.y,
-        #     p2.x, p2.y,
-        #     p4.y, p4.y,
-        #     p3.x, p3.y,
-        #     fill="blue",
-        #     outline="black"
-        # )
+        while i<ultim_tram:
+            w.create_polygon(
+                p1.x, p1.y,
+                p2.x, p2.y,
+                q2.x, q2.y,
+                q1.x, q1.y,
+                fill="#545353"
+            )
+            i=i+1
+            p1=q1; p2=q2
+            q1=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(i)]['p3']['x'],dades['sections_UAB']['T'+str(i)]['p3']['y'])
+            q2=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(i)]['p4']['x'],dades['sections_UAB']['T'+str(i)]['p4']['y'])
 
-        #w.create_rectangle(p1.x,p1.y,p4.x,p4.y)
+        w.create_polygon(
+            p1.x, p1.y,
+            p2.x, p2.y,
+            p4.x, p4.y,
+            p3.x, p3.y,
+            fill="#545353"
+        )
