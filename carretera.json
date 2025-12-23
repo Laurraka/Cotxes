@@ -1,19 +1,8 @@
-{"sections":[
-	{"position":{"x":0,"y":500},
-	"angle":0,
-	"direction":{"x":1,"y":0},
-	"distance":1000
+{"sections_UAB":{
+	"T1":{"p1":{"x": 125, "y": 0}, "p2":{"x": 375, "y": 0}, "p3":{"x": 125, "y": 300}, "p4":{"x": 375, "y": 300}},
+	"T2":{"p1":{"x": 125, "y": 300}, "p2":{"x": 375, "y": 300}, "p3":{"x": 150, "y": 500}, "p4":{"x": 325, "y": 500}}
 	},
-	{"position":{"x":1000,"y":500},
-	"angle":90,
-	"direction":{"x":0,"y":1},
-	"distance":1000}
-	],
- "cars":[
-	{"start_position":{"x":0,"y":500},
-	"angle":0,
-	"direction":{"x":1,"y":0},
-	"width":30,
-	"height":20}
-	]
+ "cars":{
+	"C1":{"start_position":{"x":0,"y":500}, "angle":0, "direction":{"x":1,"y":0}, "width":30, "height":20}
+ 	}
 }
