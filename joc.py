@@ -3,6 +3,7 @@ from WPoint import *
 from LinearEquation import *
 from pantalla import *
 from Cotxe import *
+from funcions_adicionals import *
 
 #Fer diccionari de ranges de la carretera
 f=open("carretera.json","r")
@@ -40,11 +41,19 @@ class Paret:
             fill="#545353"
         )
 
-    def XocaCotxe(self, cotxe): #TO-DO
+    def xoca_cotxe(self, cotxe):
         V1=WPoint(cotxe.x,cotxe.y)
         V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
-        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
-        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
+        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        
+        vertexs_cotxe=[V1,V2,V3,V4]
+        for i in range(0,4):
+            j=i+1
+            j=j%4
+            if linesCollided(self.x0, self.y0, self.x1, self.y1, vertexs_cotxe[i].x, vertexs_cotxe[i].y, 
+                             vertexs_cotxe[j].x, vertexs_cotxe[j].y):
+                return True
         
         return False
 

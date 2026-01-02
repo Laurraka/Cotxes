@@ -44,29 +44,11 @@ class Cotxe:
         
     def controls(self):
         if keyboard.is_pressed('left'):
-            self.angle=self.angle+0.1
+            self.x=self.x-2
         if keyboard.is_pressed('right'):
-            self.angle=self.angle-0.1
+            self.x=self.x+2
     
-    def xoc_paret(self, wMin, wMax, screen, carretera):
-        L1=LinearEquation(self.x, self.y, self.x, self.y+self.h)
-        L2=LinearEquation(self.x, self.y, self.x+self.w, self.y)
-        L3=LinearEquation(self.x+self.w, self.y, self.x+self.w, self.y+self.h)
-        L4=LinearEquation(self.x, self.y+self.h, self.x+self.w, self.y+self.h)
-
-        equacions_esquerra=carretera.equacions_rectes(wMin,wMax,screen)[0] #en teoria es de la mateixa classe que L1
-        equacions_dreta=carretera.equacions_rectes(wMin,wMax,screen)[1]
-        
-        # for eq in equacions_esquerra:
-        #     if L1.intersection(eq):
-        #         self.toca_paret=True
-        #         break
-        #     if L2.intersection(eq):
-        #         self.toca_paret=True
-        #         break
-        #     if L3.intersection(eq):
-        #         self.toca_paret=True
-        #         break
-        #     if L4.intersection(eq):
-        #         self.toca_paret=True
-        #         break
+    def xoc_paret(self, joc):
+        for paret in joc.parets:
+            if paret.xoca_cotxe(self):
+                self.toca_paret = True

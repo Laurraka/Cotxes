@@ -30,8 +30,13 @@ while True:
     w.delete("all")
     for i in range(0,len(joc.parets)-1,2):
         joc.parets[i].dibuixa(joc.parets[i+1], w, screen)
-    c1.pinta(w, screen)
-    screen.TranslateWorld(1)
+    
+    c1.reset()  # Resetegem l'estat de col·lisió
+    c1.controls()
     c1.mou()
+    c1.xoc_paret(joc)
+    c1.pinta(w, screen)
+    
     w.update()
+    screen.TranslateWorld(1)
     time.sleep(20/1000)
