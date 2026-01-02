@@ -44,7 +44,7 @@ class Pantalla:
         denom_x = (self.zMax.x - self.zMin.x)
         denom_y = (self.zMax.y - self.zMin.y)
 
-        wx = ((Zp.x - self.ZMin.x) * (self.wMax.x - self.wMin.x) / denom_x) + self.wMin.x if denom_x != 0 else self.wMin.x
+        wx = ((Zp.x - self.zMin.x) * (self.wMax.x - self.wMin.x) / denom_x) + self.wMin.x if denom_x != 0 else self.wMin.x
         wy = ((self.zMax.y - Zp.y - self.zMin.y) * (self.wMax.y - self.wMin.y) / denom_y) + self.wMin.y if denom_y != 0 else self.wMin.y
 
         return WPoint(wx, wy)

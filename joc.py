@@ -1,67 +1,50 @@
 import json
 from WPoint import *
 from LinearEquation import *
+from pantalla import *
+from Cotxe import *
 
 #Fer diccionari de ranges de la carretera
 f=open("carretera.json","r")
 dades=json.load(f)
-noms_trams=list(dades['sections_UAB'].keys())
-ranges_trams={}
-for nom in noms_trams:
-    ranges_trams[nom]=range(dades['sections_UAB'][nom]['p1']['y'],dades['sections_UAB'][nom]['p3']['y'])
-
 f.close()
 
 class Joc:
+    def __init__(self, escenari, cotxes):
+        self.parets=[]
+        for tram in dades[escenari].keys():
+            self.parets.append(Paret(dades[escenari][tram]['p1']['x'],dades[escenari][tram]['p1']['y'],dades[escenari][tram]['p3']['x'],dades[escenari][tram]['p3']['y']))
+            self.parets.append(Paret(dades[escenari][tram]['p2']['x'],dades[escenari][tram]['p2']['y'],dades[escenari][tram]['p4']['x'],dades[escenari][tram]['p4']['y']))
 
-    def construir_carretera(self, wMin, wMax, w, screen):
-        primer_tram=1
-        ultim_tram=1
+        self.cotxes=[]
+        for c in cotxes:
+            self.cotxes.append(c) # TO-DO: Canviar inicialització per fitxer .json
 
-        while wMin.y not in ranges_trams['T'+str(primer_tram)]:
-            primer_tram=primer_tram+1
-        
-        while wMax.y not in ranges_trams['T'+str(ultim_tram)]:
-            ultim_tram=ultim_tram+1
+class Paret:
+    def __init__(self, x0, y0, x1, y1): #(x0,y0) és el punt que està més amunt
+        self.x0=x0
+        self.y0=y0
+        self.x1=x1
+        self.y1=y1
 
-        L1=LinearEquation(WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p1']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p1']['y']),
-                          WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p3']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p3']['y']))
-        L2=LinearEquation(WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p2']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p2']['y']),
-                          WPoint(dades['sections_UAB']['T'+str(primer_tram)]['p4']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p4']['y']))
-        
-        p1=screen.WorldToZoomXY(L1.getX(wMin.y),wMin.y)
-        p2=screen.WorldToZoomXY(L2.getX(wMin.y),wMin.y)
-
-        L3=LinearEquation(WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p1']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p1']['y']),
-                          WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p3']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p3']['y']))
-        L4=LinearEquation(WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p2']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p2']['y']),
-                          WPoint(dades['sections_UAB']['T'+str(ultim_tram)]['p4']['x'],dades['sections_UAB']['T'+str(ultim_tram)]['p4']['y']))
-        
-        p3=screen.WorldToZoomXY(L3.getX(wMax.y),wMax.y)
-        p4=screen.WorldToZoomXY(L4.getX(wMax.y),wMax.y)
-
-        i=primer_tram
-
-        q1=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(primer_tram)]['p3']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p3']['y'])
-        q2=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(primer_tram)]['p4']['x'],dades['sections_UAB']['T'+str(primer_tram)]['p4']['y'])
-
-        while i<ultim_tram:
-            w.create_polygon(
-                p1.x, p1.y,
-                p2.x, p2.y,
-                q2.x, q2.y,
-                q1.x, q1.y,
-                fill="#545353"
-            )
-            i=i+1
-            p1=q1; p2=q2
-            q1=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(i)]['p3']['x'],dades['sections_UAB']['T'+str(i)]['p3']['y'])
-            q2=screen.WorldToZoomXY(dades['sections_UAB']['T'+str(i)]['p4']['x'],dades['sections_UAB']['T'+str(i)]['p4']['y'])
-
+    def dibuixa(self, w1, w, screen): #self és la paret de l'esquerra. w1 és un objecte paret, i és la paret de la dreta
+        P0=screen.WorldToZoomXY(self.x0, self.y0)
+        P1=screen.WorldToZoomXY(self.x1, self.y1)
+        Q0=screen.WorldToZoomXY(w1.x0, w1.y0)
+        Q1=screen.WorldToZoomXY(w1.x1, w1.y1)
         w.create_polygon(
-            p1.x, p1.y,
-            p2.x, p2.y,
-            p4.x, p4.y,
-            p3.x, p3.y,
+            P0.x, P0.y,
+            Q0.x, Q0.y,
+            Q1.x, Q1.y,
+            P1.x, P1.y,
             fill="#545353"
         )
+
+    def XocaCotxe(self, cotxe): #TO-DO
+        V1=WPoint(cotxe.x,cotxe.y)
+        V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
+        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
+        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        
+        return False
+
