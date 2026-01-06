@@ -22,21 +22,28 @@ screen=Pantalla(WPoint(0,0),WPoint(500,281),
 # TO-DO: Canviar inicialització cotxes per fitxer .json
 c1=Cotxe(250,100,15,23,v=1)
 c2=Cotxe(1250,1600,10,8,v=2)
-cotxes=[c1,c2]
+cotxes=[c1]
 
-joc=Joc("sections_UAB", cotxes)
+joc=Joc("UAB", cotxes)
 
 while True:
     w.delete("all")
-    for i in range(0,len(joc.parets)-1,2):
-        joc.parets[i].dibuixa(joc.parets[i+1], w, screen)
     
-    c1.reset()  # Resetegem l'estat de col·lisió
+    #Dibuixem l'escenari
+    for i in range(0,len(joc.parets)-1,2):
+        joc.parets[i].show(joc.parets[i+1], w, screen)
+    
+    for i in range(0, len(joc.recompenses)):
+        joc.recompenses[i].show(w, screen)
+    
+    c1.reset()  
     c1.controls()
     c1.mou()
     c1.xoc_paret(joc)
-    c1.pinta(w, screen)
+    c1.recompensa_agafada(joc)
+    c1.show(w, screen)
+    c1.mostra_puntuacio(w, ample_window-50, 20)
     
     w.update()
     screen.TranslateWorld(1)
-    time.sleep(20/1000)
+    time.sleep(10/1000)

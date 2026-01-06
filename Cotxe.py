@@ -13,6 +13,7 @@ class Cotxe:
         self.angle=0
 
         self.toca_paret = False
+        self.puntuacio=0
 
     def reset(self):
         self.toca_paret = False
@@ -20,7 +21,7 @@ class Cotxe:
     def mou(self):
         self.y=self.y+self.v
 
-    def pinta(self,w,screen):
+    def show(self,w,screen):
         p1=screen.WorldToZoomXY(self.x,self.y)
         p2=screen.WorldToZoomXY(self.x+self.w*math.cos(self.angle), self.y-self.w*math.sin(self.angle))
         p3=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle), self.y+self.h*math.cos(self.angle))
@@ -42,6 +43,14 @@ class Cotxe:
                 fill="green"
             )
         
+    def mostra_puntuacio(self, w, x, y):
+        w.create_text(
+            x, y,                
+            text=f"Punts: {self.puntuacio}",
+            fill="black",
+            font=("Arial", 14)
+        )
+    
     def controls(self):
         if keyboard.is_pressed('left'):
             self.x=self.x-2
@@ -52,3 +61,8 @@ class Cotxe:
         for paret in joc.parets:
             if paret.xoca_cotxe(self):
                 self.toca_paret = True
+
+    def recompensa_agafada(self, joc):
+        for rec in joc.recompenses:
+            if rec.agafada(self, joc):
+                break
