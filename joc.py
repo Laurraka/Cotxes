@@ -164,8 +164,6 @@ class Obstacle:
                 jj=jj%4
                 if linesCollided(vertexs_cotxe[i].x, vertexs_cotxe[i].y, vertexs_cotxe[ii].x, vertexs_cotxe[ii].y,
                                  vertexs_recompensa[j].x, vertexs_recompensa[j].y, vertexs_recompensa[jj].x, vertexs_recompensa[jj].y):
-                    cotxe.puntuacio+=self.valor
-                    joc.recompenses.remove(self)
                     return True
                 
         return False

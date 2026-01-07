@@ -2,6 +2,7 @@ import keyboard
 from LinearEquation import *
 from joc import *
 import math
+from funcions_adicionals import *
 
 class Cotxe:
     def __init__(self,x,y,w,h,v=1):
@@ -18,14 +19,12 @@ class Cotxe:
         self.vides=3
 
         self.img_3_cors = carrega_imatge("imatges/3_cors.png", 120, 32)
+        self.img_2_cors = carrega_imatge("imatges/2_cors.png", 120, 32)
 
     def reset(self):
         self.toca_paret = False
 
     def mou(self):
-        self.y=self.y+self.v
-
-    def show(self,w,screen):
         self.y=self.y+self.v
 
     def show(self,w,screen):
@@ -61,6 +60,8 @@ class Cotxe:
     def mostra_vides(self, w, x, y):
         if self.vides==3:
             w.create_image(x, y, image=self.img_3_cors, anchor="nw")
+        if self.vides==2:
+            w.create_image(x, y, image=self.img_2_cors, anchor="nw")
     
     def controls(self):
         if keyboard.is_pressed('left'):
@@ -77,3 +78,16 @@ class Cotxe:
         for rec in joc.recompenses:
             if rec.agafada(self, joc):
                 break
+
+    def xoc_obstacle(self, joc):
+        for obs in joc.obstacles:
+            if obs.colisio(self, joc):
+                if self.toca_obstacle==False:
+                    print("Una vida menys")
+                    self.vides-=1
+                    self.toca_obstacle=True
+                    return
+                else:
+                    return
+            
+        self.toca_obstacle=False

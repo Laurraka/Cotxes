@@ -24,27 +24,10 @@ c1=Cotxe(250,100,15,23,v=1)
 c2=Cotxe(1250,1600,10,8,v=2)
 cotxes=[c1]
 
-joc=Joc("UAB", cotxes)
+joc=Joc("UAB", cotxes, screen)
 
 while True:
     w.delete("all")
-    
-    #Dibuixem l'escenari
-    for i in range(0,len(joc.parets)-1,2):
-        joc.parets[i].show(joc.parets[i+1], w, screen)
-    
-    for i in range(0, len(joc.recompenses)):
-        joc.recompenses[i].show(w, screen)
-    
-    c1.reset()  
-    c1.controls()
-    c1.mou()
-    c1.xoc_paret(joc)
-    c1.recompensa_agafada(joc)
-    c1.show(w, screen)
-    c1.mostra_puntuacio(w, ample_window-50, 20)
-    
-    w.update()
     
     #Dibuixem l'escenari
     for i in range(0,len(joc.parets)-1,2):
@@ -61,6 +44,7 @@ while True:
     c1.mou()
     c1.xoc_paret(joc)
     c1.recompensa_agafada(joc)
+    c1.xoc_obstacle(joc)
     c1.show(w, screen)
     c1.mostra_puntuacio(w, ample_window-50, 20)
     c1.mostra_vides(w, 20, 20)
