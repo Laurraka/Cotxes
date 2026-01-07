@@ -45,5 +45,26 @@ while True:
     c1.mostra_puntuacio(w, ample_window-50, 20)
     
     w.update()
+    
+    #Dibuixem l'escenari
+    for i in range(0,len(joc.parets)-1,2):
+        joc.parets[i].show(joc.parets[i+1], w, screen)
+    
+    for i in range(0, len(joc.recompenses)):
+        joc.recompenses[i].show(w, screen)
+
+    for i in range(0, len(joc.obstacles)):
+        joc.obstacles[i].show(w, screen)
+    
+    c1.reset()  
+    c1.controls()
+    c1.mou()
+    c1.xoc_paret(joc)
+    c1.recompensa_agafada(joc)
+    c1.show(w, screen)
+    c1.mostra_puntuacio(w, ample_window-50, 20)
+    c1.mostra_vides(w, 20, 20)
+    
+    w.update()
     screen.TranslateWorld(1)
     time.sleep(10/1000)

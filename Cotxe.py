@@ -3,6 +3,11 @@ from LinearEquation import *
 from joc import *
 import math
 
+import keyboard
+from LinearEquation import *
+from joc import *
+import math
+
 class Cotxe:
     def __init__(self,x,y,w,h,v=1):
         self.x=x
@@ -13,12 +18,19 @@ class Cotxe:
         self.angle=0
 
         self.toca_paret = False
+        self.toca_obstacle=False
         self.puntuacio=0
+        self.vides=3
+
+        self.img_3_cors = carrega_imatge("imatges/3_cors.png", 120, 32)
 
     def reset(self):
         self.toca_paret = False
 
     def mou(self):
+        self.y=self.y+self.v
+
+    def show(self,w,screen):
         self.y=self.y+self.v
 
     def show(self,w,screen):
@@ -50,6 +62,10 @@ class Cotxe:
             fill="black",
             font=("Arial", 14)
         )
+
+    def mostra_vides(self, w, x, y):
+        if self.vides==3:
+            w.create_image(x, y, image=self.img_3_cors, anchor="nw")
     
     def controls(self):
         if keyboard.is_pressed('left'):
