@@ -53,6 +53,14 @@ class Pantalla:
         #Permet transformar a partir de 2 valors x,y en lloc d'un VPoint
         return self.ZoomToWorld(ZPoint(x, y))
     
+    def LongXZoomToWorld(self, longX):
+        scale_x = (self.wMax.x - self.wMin.x) / (self.zMax.x - self.zMin.x)
+        return longX*scale_x
+
+    def LongYZoomToWorld(self, longY):
+        scale_y = (self.wMax.y - self.wMin.y) / (self.zMax.y - self.zMin.y)  
+        return longY*scale_y 
+    
     def TranslateWorld(self,dy):
         self.wMin.y+=dy
         self.wMax.y+=dy

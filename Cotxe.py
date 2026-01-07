@@ -3,11 +3,6 @@ from LinearEquation import *
 from joc import *
 import math
 
-import keyboard
-from LinearEquation import *
-from joc import *
-import math
-
 class Cotxe:
     def __init__(self,x,y,w,h,v=1):
         self.x=x
