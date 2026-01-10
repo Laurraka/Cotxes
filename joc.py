@@ -37,13 +37,22 @@ class Joc:
         self.obstacles=[]
         for obs in obstacles[escenari].keys():
             if obstacles[escenari][obs]["tipus"]=="senglar":
-                self.obstacles.append(Porc(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], screen))
+                self.obstacles.append(Porc(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], obstacles[escenari][obs]["direccio"], screen))
 
             if obstacles[escenari][obs]["tipus"]=="platan":
                 self.obstacles.append(Plàtan(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], screen))
 
             if obstacles[escenari][obs]["tipus"]=="contenidor":
                 self.obstacles.append(Contenidor(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], screen))
+
+            if obstacles[escenari][obs]["tipus"]=="iaia":
+                self.obstacles.append(Iaia(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], obstacles[escenari][obs]["direccio"], screen))
+
+            if obstacles[escenari][obs]["tipus"]=="con":
+                self.obstacles.append(Con(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], screen))
+
+            if obstacles[escenari][obs]["tipus"]=="turista":
+                self.obstacles.append(Turista(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], obstacles[escenari][obs]["direccio"], screen))
 
 class Paret:
     def __init__(self, x0, y0, x1, y1): #(x0,y0) és el punt que està més amunt
@@ -169,32 +178,38 @@ class Obstacle:
         return False
     
 class Porc(Obstacle):
-    def __init__(self, x, y, screen):
+    def __init__(self, x, y, direccio, screen):
         super().__init__(x, y)
-        self.amplada=screen.LongXZoomToWorld(32)#El que sigui
-        self.alçada=screen.LongYZoomToWorld(32)
+        self.amplada=screen.LongXZoomToWorld(80)#El que sigui
+        self.alçada=screen.LongYZoomToWorld(60)
 
-        self.imatge1=carrega_imatge("imatges/Porc_senglar_1.png", 32,32)
-        self.imatge2=carrega_imatge("imatges/Porc_senglar_2.png", 32,32)
-
-        self.foto=False
-
-    def show(self, w, screen):
-        if self.foto:
-            super().show(w, self.imatge2, screen)
+        if direccio==1:
+            self.esquerra_dreta=True
+            self.imatge=carrega_imatge("imatges/Porc_senglar_1.png", 80,60)
         else:
-            super().show(w, self.imatge1, screen)
+            self.esquerra_dreta=False
+            self.imatge=carrega_imatge("imatges/Porc_senglar_2.png", 80,60)     
 
+    def mou(self):
+        if self.esquerra_dreta:
+            self.x=self.x+0.5
+        else:
+            self.x=self.x-0.5
+    
+    def show(self, w, screen):
+        super().show(w, self.imatge, screen)
+        self.mou()
+    
     def colisio(self, cotxe, joc):
         return super().colisio(cotxe, self.amplada, self.alçada, joc)
-    
+
 class Plàtan(Obstacle):
     def __init__(self, x, y, screen):
         super().__init__(x, y)
-        self.amplada=screen.LongXZoomToWorld(32) #El que sigui
-        self.alçada=screen.LongYZoomToWorld(32)
+        self.amplada=screen.LongXZoomToWorld(50) 
+        self.alçada=screen.LongYZoomToWorld(45)
 
-        self.imatge=carrega_imatge("imatges/plàtan.png", 32,32)
+        self.imatge=carrega_imatge("imatges/plàtan.png", 50,45)
 
     def show(self, w, screen):
         super().show(w, self.imatge, screen)
@@ -205,13 +220,79 @@ class Plàtan(Obstacle):
 class Contenidor(Obstacle):
     def __init__(self, x, y, screen):
         super().__init__(x, y)
-        self.amplada=screen.LongXZoomToWorld(32)#El que sigui
-        self.alçada=screen.LongYZoomToWorld(32)
+        self.amplada=screen.LongXZoomToWorld(80)#El que sigui
+        self.alçada=screen.LongYZoomToWorld(70)
 
-        self.imatge=carrega_imatge("imatges/contenidor.png", 32,32)
+        self.imatge=carrega_imatge("imatges/contenidor.png", 80, 70)
 
     def show(self, w, screen):
         super().show(w, self.imatge, screen)
 
+    def colisio(self, cotxe, joc):
+        return super().colisio(cotxe, self.amplada, self.alçada, joc)
+    
+class Iaia(Obstacle):
+    def __init__(self, x, y, direccio, screen):
+        super().__init__(x, y)
+        self.amplada=screen.LongXZoomToWorld(75)#El que sigui
+        self.alçada=screen.LongYZoomToWorld(97)
+
+        if direccio==1:
+            self.esquerra_dreta=True
+            self.imatge=carrega_imatge("imatges/Iaia_1.png", 75,97)
+        else:
+            self.esquerra_dreta=False
+            self.imatge=carrega_imatge("imatges/Iaia_2.png", 75,97)     
+
+    def mou(self):
+        if self.esquerra_dreta:
+            self.x=self.x+0.25
+        else:
+            self.x=self.x-0.25
+    
+    def show(self, w, screen):
+        super().show(w, self.imatge, screen)
+        self.mou()
+    
+    def colisio(self, cotxe, joc):
+        return super().colisio(cotxe, self.amplada, self.alçada, joc)
+    
+class Con(Obstacle):
+    def __init__(self, x, y, screen):
+        super().__init__(x, y)
+        self.amplada=screen.LongXZoomToWorld(60)#El que sigui
+        self.alçada=screen.LongYZoomToWorld(75)
+
+        self.imatge=carrega_imatge("imatges/con.png", 60, 75)
+
+    def show(self, w, screen):
+        super().show(w, self.imatge, screen)
+
+    def colisio(self, cotxe, joc):
+        return super().colisio(cotxe, self.amplada, self.alçada, joc)
+    
+class Turista(Obstacle):
+    def __init__(self, x, y, direccio, screen):
+        super().__init__(x, y)
+        self.amplada=screen.LongXZoomToWorld(90)#El que sigui
+        self.alçada=screen.LongYZoomToWorld(135)
+
+        if direccio==1:
+            self.esquerra_dreta=True
+            self.imatge=carrega_imatge("imatges/Guiri_1.png", 90,135)
+        else:
+            self.esquerra_dreta=False
+            self.imatge=carrega_imatge("imatges/Guiri_2.png", 90, 135)     
+
+    def mou(self):
+        if self.esquerra_dreta:
+            self.x=self.x+0.4
+        else:
+            self.x=self.x-0.4
+    
+    def show(self, w, screen):
+        super().show(w, self.imatge, screen)
+        self.mou()
+    
     def colisio(self, cotxe, joc):
         return super().colisio(cotxe, self.amplada, self.alçada, joc)

@@ -1,6 +1,34 @@
 {"UAB":{
-    "1":{"tipus": "senglar", "x": 300, "y": 190},
-    "2":{"tipus": "platan", "x": 190, "y": 364},
-    "3":{"tipus": "contenidor", "x": 210, "y": 402}
+    "1":{"tipus": "senglar", "x": 150, "y": 200, "direccio": 1},
+    "2":{"tipus": "contenidor", "x": 230, "y": 402},
+    "3":{"tipus": "platan", "x": 235, "y": 1300},
+    "4":{"tipus": "senglar", "x": 910, "y": 1500, "direccio": -1},
+    "5":{"tipus": "platan", "x": 210, "y": 605},
+    "6":{"tipus": "contenidor", "x": 185, "y": 990},
+    "7":{"tipus": "contenidor", "x": 240, "y": 1775},
+    "8":{"tipus": "platan", "x": 305, "y": 1830},
+    "9":{"tipus": "senglar", "x": -650, "y": 1875, "direccio": 1},
+    "10":{"tipus": "contenidor", "x": 280, "y": 2050},
+    "11":{"tipus": "platan", "x": 200, "y": 2450},
+    "12":{"tipus": "senglar", "x": 1450, "y": 2600, "direccio": -1}
+    },
+"Cerdanyola":{
+	"1":{"tipus": "con", "x": 170, "y": 460},
+    "2":{"tipus": "con", "x": 150, "y": 640},
+    "3":{"tipus": "iaia", "x": 40, "y": 775, "direccio": 1},
+    "4":{"tipus": "iaia", "x": 620, "y": 1210, "direccio": -1},
+    "5":{"tipus": "con", "x": 300, "y": 1690},
+    "6":{"tipus": "con", "x": 230, "y": 2350}
+    },
+"Barcelona":{
+    "1":{"tipus": "con", "x": 200, "y": 340},
+    "2":{"tipus": "turista", "x": 50, "y": 580, "direccio": 1},
+    "3":{"tipus": "con", "x": 270, "y": 775},
+    "4":{"tipus": "turista", "x": 600, "y": 850, "direccio": -1},
+    "5":{"tipus": "con", "x": 290, "y": 1300},
+    "6":{"tipus": "con", "x": 230, "y": 1550},
+    "7":{"tipus": "turista", "x": -500, "y": 1800, "direccio": 1},
+    "8":{"tipus": "con", "x": 130, "y": 2300},
+    "9":{"tipus": "turista", "x": 1200, "y": 2600, "direccio": -1}
     }
 }

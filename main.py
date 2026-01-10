@@ -24,10 +24,11 @@ c1=Cotxe(250,100,15,23,v=1)
 c2=Cotxe(1250,1600,10,8,v=2)
 cotxes=[c1]
 
-joc=Joc("UAB", cotxes, screen)
+joc=Joc("Barcelona", cotxes, screen)
 
 while True:
     w.delete("all")
+    w.config(bg="#78CC54")
     
     #Dibuixem l'escenari
     for i in range(0,len(joc.parets)-1,2):

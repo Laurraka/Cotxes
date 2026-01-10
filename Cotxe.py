@@ -20,6 +20,7 @@ class Cotxe:
 
         self.img_3_cors = carrega_imatge("imatges/3_cors.png", 120, 32)
         self.img_2_cors = carrega_imatge("imatges/2_cors.png", 120, 32)
+        self.img_1_cor = carrega_imatge("imatges/1_cor.png", 120, 32)
 
     def reset(self):
         self.toca_paret = False
@@ -62,6 +63,8 @@ class Cotxe:
             w.create_image(x, y, image=self.img_3_cors, anchor="nw")
         if self.vides==2:
             w.create_image(x, y, image=self.img_2_cors, anchor="nw")
+        if self.vides==1:
+            w.create_image(x, y, image=self.img_1_cor, anchor="nw")
     
     def controls(self):
         if keyboard.is_pressed('left'):
@@ -83,7 +86,6 @@ class Cotxe:
         for obs in joc.obstacles:
             if obs.colisio(self, joc):
                 if self.toca_obstacle==False:
-                    print("Una vida menys")
                     self.vides-=1
                     self.toca_obstacle=True
                     return
