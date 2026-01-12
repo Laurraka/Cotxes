@@ -153,17 +153,27 @@ class Obstacle:
 
     def colisio(self, cotxe, amplada, alçada, joc):
         #TO-DO: Codi duplicat
+        #Vèrtexs del cotxe
         V1=WPoint(cotxe.x,cotxe.y)
         V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
         V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
         V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
         vertexs_cotxe=[V1,V2,V3,V4]
         
+        #Vèrtexs de l'obstacle (TO-DO: OBSTACLE QUE NO GIRA)
         W1=WPoint(self.x,self.y)
         W2=WPoint(self.x+self.amplada,self.y)
         W4=WPoint(self.x,self.y+self.alçada)
         W3=WPoint(self.x+self.amplada,self.y+self.alçada)
         vertexs_recompensa=[W1,W2,W3,W4]
+
+        #Comprovem si el cotxe està dins de l'obstacle. En cas afirmatiu, detectem col·lisió
+        if max(W1.x, W4.x)<=min(V1.x, V4.x) and max(V2.x, V3.x)<=min(W2.x,W3.x) and max(W1.y, W2.y)<=min(V1.y, V2.y) and max(V3.y, V4.y)<=min(W3.y, W4.y):
+            return True
+
+        #Comprovem si l'obstacle està dins el cotxe. En cas afirmatiu, detectem col·lisió
+        if max(V1.x, V4.x)<=min(W1.x, W4.x) and max(W2.x, W3.x)<=min(V2.x,V3.x) and max(V1.y, V2.y)<=min(W1.y, W2.y) and max(W3.y, W4.y)<=min(V3.y, V4.y):
+            return True 
         
         for i in range(0,4):
             ii=i+1
