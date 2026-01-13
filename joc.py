@@ -24,6 +24,7 @@ i.close()
 
 class Joc:
     def __init__(self, escenari, cotxes, screen):
+        self.escenari=escenari
         self.meta=Meta(metes[escenari]['x'], metes[escenari]['y'], screen)
         
         self.parets=[]
@@ -193,15 +194,15 @@ class Obstacle:
                 
         return False
     
-class Meta():
+class Meta:
     def __init__(self, x, y, screen):
         self.x=x
         self.y=y
 
-        self.amplada=screen.LongXZoomToWorld(70) 
-        self.alçada=screen.LongYZoomToWorld(45)
+        self.amplada=screen.LongXZoomToWorld(400) 
+        self.alçada=screen.LongYZoomToWorld(70)
 
-        self.imatge=carrega_imatge("imatges/meta.png", 70, 45)
+        self.imatge=carrega_imatge("imatges/meta.png", 400, 70)
 
     def show(self, w, screen):
         p=screen.WorldToZoomXY(self.x, self.y)

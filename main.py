@@ -47,10 +47,9 @@ def mostrar_text_centrat(text, y_rel, tamany_font=40, color="black"):
 
 def iniciar_partida(nom_ciutat):
     """Inicia una partida amb l'escenari seleccionat"""
-    global joc, partida_executant, pantalla_inici
+    global joc, partida_executant
     
     netejar_interface()
-    pantalla_inici = False
     partida_executant = True
     
     # Crear cotxe i pantalla
@@ -68,10 +67,8 @@ def iniciar_partida(nom_ciutat):
 
 def mostrar_menu_escenari():
     """Mostra el menú per a seleccionar un escenari"""
-    global pantalla_inici
     
     netejar_interface()
-    pantalla_inici = False
     
     mostrar_text_centrat("SELECCIONA ESCENARI", 0.2)
     
@@ -122,10 +119,18 @@ def mostrar_pantalla_inici():
     crear_boto("Sortir", tk.destroy, 0.75, 0.8, color="#2196F3")
 
 def bucle_joc(screen):
-    global joc
+    global joc, partida_executant
+
+    if not partida_executant:
+        return
 
     w.delete("all")
-    w.config(bg="#78CC54")
+    if joc.escenari=="UAB":
+        w.config(bg="#78CC54")
+    if joc.escenari=="Cerdanyola":
+        w.config(bg="#D0D4CF")
+    if joc.escenari=="Barcelona":
+        w.config(bg="#F4E786")
     
     # Dibuixem escenari
     for i in range(0, len(joc.parets)-1, 2):
@@ -141,25 +146,24 @@ def bucle_joc(screen):
     joc.meta.show(w, screen)
     
     # Controls del cotxe
-    # if joc and joc.cotxes and len(joc.cotxes) > 0:
-    #     c1 = joc.cotxes[0]
-    #     c1.reset()  
-    #     c1.controls()
-    #     c1.mou()
-    #     c1.xoc_paret(joc)
-    #     c1.recompensa_agafada(joc)
-    #     c1.xoc_obstacle(joc)
-    #     c1.show(w, joc.screen)
-    #     c1.mostra_puntuacio(w, ample_window-150, 40)
-    #     c1.mostra_vides(w, 40, 40)
+    if joc and joc.cotxes and len(joc.cotxes) > 0:
+        c1 = joc.cotxes[0]
+        c1.reset()  
+        c1.controls()
+        c1.mou()
+        c1.xoc_paret(joc)
+        c1.recompensa_agafada(joc)
+        c1.xoc_obstacle(joc)
+        c1.show(w, screen)
+        c1.mostra_puntuacio(w, ample_window-150, 40)
+        c1.mostra_vides(w, 40, 40)
     
     w.update()
     screen.TranslateWorld(1)
-    time.sleep(10/1000)
     
     # Seguim amb el bucle
     if partida_executant:
-       tk.after(10, bucle_joc(screen))
+       tk.after(5, lambda: bucle_joc(screen)) #El segon argument ha de ser una referència a una funció
 
 # Iniciar amb la pantalla d'inici
 mostrar_pantalla_inici()
