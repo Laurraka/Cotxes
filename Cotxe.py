@@ -13,7 +13,6 @@ class Cotxe:
         self.v=v
         self.angle=0
 
-        self.toca_paret = False
         self.toca_obstacle=False
         self.puntuacio=0
         self.vides=3
@@ -35,22 +34,13 @@ class Cotxe:
         p2=screen.WorldToZoomXY(self.x+self.w*math.cos(self.angle), self.y-self.w*math.sin(self.angle))
         p3=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle), self.y+self.h*math.cos(self.angle))
         p4=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle)+self.w*math.cos(self.angle), self.y+self.h*math.cos(self.angle)-self.w*math.sin(self.angle))
-        if self.toca_paret:
-            w.create_polygon(
-                p1.x,p1.y,
-                p2.x,p2.y,
-                p4.x,p4.y,
-                p3.x,p3.y,
-                fill="red"
-            )
-        else:
-            w.create_polygon(
-                p1.x,p1.y,
-                p2.x,p2.y,
-                p4.x,p4.y,
-                p3.x,p3.y,
-                fill="green"
-            )
+        w.create_polygon(
+            p1.x,p1.y,
+            p2.x,p2.y,
+            p4.x,p4.y,
+            p3.x,p3.y,
+            fill="green"
+        )
         
     def mostra_puntuacio(self, w, x, y):
         w.create_text(
@@ -67,7 +57,7 @@ class Cotxe:
             w.create_image(x, y, image=self.img_2_cors, anchor="nw")
         if self.vides==1:
             w.create_image(x, y, image=self.img_1_cor, anchor="nw")
-        if self.vides>1:
+        if self.vides<1:
             self.mort=True
     
     def controls(self):
@@ -79,7 +69,7 @@ class Cotxe:
     def xoc_paret(self, joc):
         for paret in joc.parets:
             if paret.xoca_cotxe(self):
-                self.toca_paret = True
+                self.mort = True
 
     def recompensa_agafada(self, joc):
         for rec in joc.recompenses:

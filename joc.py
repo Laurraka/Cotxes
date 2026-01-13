@@ -61,6 +61,12 @@ class Joc:
             if obstacles[escenari][obs]["tipus"]=="turista":
                 self.obstacles.append(Turista(obstacles[escenari][obs]["x"], obstacles[escenari][obs]["y"], obstacles[escenari][obs]["direccio"], screen))
 
+    def game_over(self, cotxe):
+        return cotxe.mort
+    
+    def guanyar(self, cotxe):
+        return cotxe.y>=metes[self.escenari]['y']
+
 class Paret:
     def __init__(self, x0, y0, x1, y1): #(x0,y0) és el punt que està més amunt
         self.x0=x0

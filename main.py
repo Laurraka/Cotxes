@@ -65,6 +65,25 @@ def iniciar_partida(nom_ciutat):
     # Iniciar bucle del joc
     bucle_joc(screen)
 
+def game_over(escenari):
+    mostrar_text_centrat("HAS PERDUT", 0.2)
+    
+    # Crear botons per seleccionar escenari
+    crear_boto("Torna-ho a intentar", lambda: iniciar_partida(escenari), 0.33, 0.5, color="#F44336")
+    crear_boto("Inici", mostrar_pantalla_inici, 0.66, 0.5, color="#9E9E9E")
+
+def guanyat(escenari, cotxe):
+    mostrar_text_centrat("HAS COMPLETAT EL CIRCUIT", 0.2)
+
+    w.create_text(ample_window/2, alt_window*0.55, 
+                     text=f"Has obtingut {cotxe.puntuacio} punts.", 
+                     font=("Arial", 16), 
+                     fill="black")
+    
+    # Crear botons per seleccionar escenari
+    crear_boto("Tornar a jugar", lambda: iniciar_partida(escenari), 0.33, 0.75, color="#F44336")
+    crear_boto("Inici", mostrar_pantalla_inici, 0.66, 0.75, color="#9E9E9E")
+
 def mostrar_menu_escenari():
     """Mostra el menú per a seleccionar un escenari"""
     
@@ -146,20 +165,27 @@ def bucle_joc(screen):
     joc.meta.show(w, screen)
     
     # Controls del cotxe
-    if joc and joc.cotxes and len(joc.cotxes) > 0:
-        c1 = joc.cotxes[0]
-        c1.reset()  
-        c1.controls()
-        c1.mou()
-        c1.xoc_paret(joc)
-        c1.recompensa_agafada(joc)
-        c1.xoc_obstacle(joc)
-        c1.show(w, screen)
-        c1.mostra_puntuacio(w, ample_window-150, 40)
-        c1.mostra_vides(w, 40, 40)
+    c1 = joc.cotxes[0]
+    c1.reset()  
+    c1.controls()
+    c1.mou()
+    c1.xoc_paret(joc)
+    c1.recompensa_agafada(joc)
+    c1.xoc_obstacle(joc)
+    c1.show(w, screen)
+    c1.mostra_puntuacio(w, ample_window-150, 40)
+    c1.mostra_vides(w, 40, 40)
     
     w.update()
     screen.TranslateWorld(1)
+
+    if joc.game_over(c1):
+        partida_executant=False
+        game_over(joc.escenari)
+
+    if joc.guanyar(c1):
+        partida_executant=False
+        guanyat(joc.escenari, c1)
     
     # Seguim amb el bucle
     if partida_executant:
