@@ -30,10 +30,14 @@ class Cotxe:
         self.y=self.y+self.v
 
     def show(self,w,screen):
-        p1=screen.WorldToZoomXY(self.x,self.y)
-        p2=screen.WorldToZoomXY(self.x+self.w*math.cos(self.angle), self.y-self.w*math.sin(self.angle))
-        p3=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle), self.y+self.h*math.cos(self.angle))
-        p4=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle)+self.w*math.cos(self.angle), self.y+self.h*math.cos(self.angle)-self.w*math.sin(self.angle))
+        p1=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
+                  -rotar_respecte_x0_y0(self.x,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
+        p2=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x+self.w,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
+                  -rotar_respecte_x0_y0(self.x+self.w,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
+        p3=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
+                  -rotar_respecte_x0_y0(self.x,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
+        p4=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x+self.w,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
+                  -rotar_respecte_x0_y0(self.x+self.w,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
         w.create_polygon(
             p1.x,p1.y,
             p2.x,p2.y,
@@ -62,9 +66,9 @@ class Cotxe:
     
     def controls(self):
         if keyboard.is_pressed('left'):
-            self.x=self.x-2
+            self.angle-=0.1
         if keyboard.is_pressed('right'):
-            self.x=self.x+2
+            self.angle+=0.1
     
     def xoc_paret(self, joc):
         for paret in joc.parets:

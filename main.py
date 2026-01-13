@@ -56,7 +56,6 @@ def iniciar_partida(nom_ciutat):
     screen = Pantalla(WPoint(0,0), WPoint(500,281),
                      ZPoint(0,0), ZPoint(ample_window, alt_window))
     
-    # TO-DO: Canviar inicialització cotxes per fitxer .json
     c1 = Cotxe(250,100,15,23,v=1)
     cotxes = [c1]
     
@@ -69,7 +68,7 @@ def game_over(escenari):
     mostrar_text_centrat("HAS PERDUT", 0.2)
     
     # Crear botons per seleccionar escenari
-    crear_boto("Torna-ho a intentar", lambda: iniciar_partida(escenari), 0.33, 0.5, color="#F44336")
+    crear_boto("Torna-hi", lambda: iniciar_partida(escenari), 0.33, 0.5, color="#F44336")
     crear_boto("Inici", mostrar_pantalla_inici, 0.66, 0.5, color="#9E9E9E")
 
 def guanyat(escenari, cotxe):
@@ -105,8 +104,8 @@ def mostrar_instruccions():
     
     instruccions = [
         "1. Utilitza les tecles de fletxa per moure el cotxe",
-        "2. Evita els obstacles",
-        "3. Recull les recompenses per sumar punts",
+        "2. Tens 3 vides. Xocar contra un objecte et pren una vida.",
+        "3. Perds la partida si xoques contra una paret o et quedes sense vides",
         "4. Té en compte que perds vides en xocar amb obstacles",
         "",
         "Prem ESC per sortir del joc en qualsevol moment"

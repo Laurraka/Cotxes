@@ -1,5 +1,7 @@
 from LinearEquation import *
 from PIL import Image, ImageTk
+import numpy as np
+import math
 
 def linesCollided(x1, y1, x2, y2, x3, y3, x4, y4):
     LA=LinearEquation(x1,y1,x2,y2)
@@ -42,3 +44,12 @@ def carrega_imatge(nom, amplada, alçada):
     im = im.resize((amplada, alçada)) 
     img = ImageTk.PhotoImage(im)
     return img
+
+def rotar_respecte_x0_y0(x, y, angle, x0, y0):
+    T=np.array([[1,0,-x0],[0,1,y0],[0,0,1]]) #Matriu de translació de (x0, y0) a l'origen
+    T_inv=np.array([[1,0,x0],[0,1,-y0],[0,0,1]])
+    R=np.array([[math.cos(angle),-math.sin(angle),0], [math.sin(angle), math.cos(angle), 0], [0,0,1]]) #Matriu de rotació
+    inp=np.array([x,-y,1])
+    m1=np.dot(T_inv, R)
+    m2=np.dot(T,inp)
+    return np.dot(m1,m2)

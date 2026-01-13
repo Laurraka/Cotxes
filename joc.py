@@ -34,7 +34,7 @@ class Joc:
 
         self.cotxes=[]
         for c in cotxes:
-            self.cotxes.append(c) # TO-DO: Canviar inicialització per fitxer .json
+            self.cotxes.append(c)
 
         self.recompenses=[]
         for compt in recompenses[escenari].keys():
@@ -88,10 +88,14 @@ class Paret:
         )
 
     def xoca_cotxe(self, cotxe):
-        V1=WPoint(cotxe.x,cotxe.y)
-        V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
-        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
-        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
         
         vertexs_cotxe=[V1,V2,V3,V4]
         for i in range(0,4):
@@ -129,10 +133,14 @@ class Recompensa:
 
     def agafada(self, cotxe, joc):
         #TO-DO: Codi duplicat
-        V1=WPoint(cotxe.x,cotxe.y)
-        V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
-        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
-        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
         vertexs_cotxe=[V1,V2,V3,V4]
         
         W1=WPoint(self.x,self.y)
@@ -167,10 +175,14 @@ class Obstacle:
     def colisio(self, cotxe, amplada, alçada, joc):
         #TO-DO: Codi duplicat
         #Vèrtexs del cotxe
-        V1=WPoint(cotxe.x,cotxe.y)
-        V2=WPoint(cotxe.x+cotxe.w*math.cos(cotxe.angle), cotxe.y-cotxe.w*math.sin(cotxe.angle))
-        V4=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle))
-        V3=WPoint(cotxe.x+cotxe.h*math.sin(cotxe.angle)+cotxe.w*math.cos(cotxe.angle), cotxe.y+cotxe.h*math.cos(cotxe.angle)-cotxe.w*math.sin(cotxe.angle))
+        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
+        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
+                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
         vertexs_cotxe=[V1,V2,V3,V4]
         
         #Vèrtexs de l'obstacle (TO-DO: OBSTACLE QUE NO GIRA)
