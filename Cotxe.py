@@ -17,6 +17,7 @@ class Cotxe:
         self.toca_obstacle=False
         self.puntuacio=0
         self.vides=3
+        self.mort=False
 
         self.img_3_cors = carrega_imatge("imatges/3_cors.png", 120, 32)
         self.img_2_cors = carrega_imatge("imatges/2_cors.png", 120, 32)
@@ -26,6 +27,7 @@ class Cotxe:
         self.toca_paret = False
 
     def mou(self):
+        self.x=self.x+self.v*math.sin(self.angle)
         self.y=self.y+self.v
 
     def show(self,w,screen):
@@ -65,6 +67,8 @@ class Cotxe:
             w.create_image(x, y, image=self.img_2_cors, anchor="nw")
         if self.vides==1:
             w.create_image(x, y, image=self.img_1_cor, anchor="nw")
+        if self.vides>1:
+            self.mort=True
     
     def controls(self):
         if keyboard.is_pressed('left'):
@@ -87,9 +91,11 @@ class Cotxe:
             if obs.colisio(self, joc):
                 if self.toca_obstacle==False:
                     self.vides-=1
+                    self.puntuacio=self.puntuacio-50
                     self.toca_obstacle=True
                     return
                 else:
-                    return
-            
+                    return   
+        
         self.toca_obstacle=False
+        

@@ -18,8 +18,14 @@ h=open("obstacles.json","r")
 obstacles=json.load(h)
 h.close()
 
+i=open("metes.json","r")
+metes=json.load(i)
+i.close()
+
 class Joc:
     def __init__(self, escenari, cotxes, screen):
+        self.meta=Meta(metes[escenari]['x'], metes[escenari]['y'], screen)
+        
         self.parets=[]
         for tram in carretera[escenari].keys():
             self.parets.append(Paret(carretera[escenari][tram]['p1']['x'],carretera[escenari][tram]['p1']['y'],carretera[escenari][tram]['p3']['x'],carretera[escenari][tram]['p3']['y']))
@@ -186,6 +192,20 @@ class Obstacle:
                     return True
                 
         return False
+    
+class Meta():
+    def __init__(self, x, y, screen):
+        self.x=x
+        self.y=y
+
+        self.amplada=screen.LongXZoomToWorld(70) 
+        self.alçada=screen.LongYZoomToWorld(45)
+
+        self.imatge=carrega_imatge("imatges/meta.png", 70, 45)
+
+    def show(self, w, screen):
+        p=screen.WorldToZoomXY(self.x, self.y)
+        w.create_image(p.x, p.y, image=self.imatge, anchor="center")
     
 class Porc(Obstacle):
     def __init__(self, x, y, direccio, screen):
