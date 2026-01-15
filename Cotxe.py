@@ -22,29 +22,19 @@ class Cotxe:
         self.img_2_cors = carrega_imatge("imatges/2_cors.png", 120, 32)
         self.img_1_cor = carrega_imatge("imatges/1_cor.png", 120, 32)
 
-    def reset(self):
-        self.toca_paret = False
+        self.im = Image.open("imatges/cotxe.png")
+        self.im = self.im.resize((60, 120), Image.NEAREST)
 
     def mou(self):
         self.x=self.x+self.v*math.sin(self.angle)
         self.y=self.y+self.v
 
     def show(self,w,screen):
-        p1=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
-                  -rotar_respecte_x0_y0(self.x,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
-        p2=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x+self.w,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
-                  -rotar_respecte_x0_y0(self.x+self.w,self.y, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
-        p3=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
-                  -rotar_respecte_x0_y0(self.x,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
-        p4=screen.WorldToZoomXY(rotar_respecte_x0_y0(self.x+self.w,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[0],
-                  -rotar_respecte_x0_y0(self.x+self.w,self.y+self.h, self.angle, self.x+self.w/2, self.y+self.h/2)[1])
-        w.create_polygon(
-            p1.x,p1.y,
-            p2.x,p2.y,
-            p4.x,p4.y,
-            p3.x,p3.y,
-            fill="green"
-        )
+        centre=screen.WorldToZoomXY(self.x+self.w/2,self.y+self.h/2)
+        
+        im_rotada = self.im.rotate(math.degrees(self.angle), expand=True)
+        self.imatge = ImageTk.PhotoImage(im_rotada)
+        w.create_image(centre.x, centre.y, image=self.imatge, anchor="center")
         
     def mostra_puntuacio(self, w, x, y):
         w.create_text(

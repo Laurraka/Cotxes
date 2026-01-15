@@ -11,18 +11,26 @@ tk = Tk()
 tk.attributes("-fullscreen", True)
 w = Canvas(tk)
 w.pack(fill=BOTH, expand=True)
-tk.bind("<Escape>", lambda e: tk.destroy())
+tk.bind("<Escape>", lambda e: tk.destroy()) #Podem prémer ESC per sortir del joc en qualsevol moment
 
-ample_window = tk.winfo_screenwidth()
+ample_window = tk.winfo_screenwidth() 
 alt_window = tk.winfo_screenheight()
 
 #-----Variables globals-----
 joc=None
 partida_executant = False
-pantalla_inici = True
 botons_actius = []
 
-#-----Funcions de gestió de interface-----
+#Guardem referència de les imatges per a les instruccions
+img_porc=carrega_imatge("imatges/Porc_senglar_1.png", 90, 70)
+img_platan=carrega_imatge("imatges/plàtan.png", 50, 45)
+img_container=carrega_imatge("imatges/contenidor.png", 80, 70)
+img_iaia=carrega_imatge("imatges/Iaia_1.png", 75, 97)
+img_con=carrega_imatge("imatges/con.png", 60, 75)
+img_guiri=carrega_imatge("imatges/Guiri_1.png", 90, 135)
+img_car=carrega_imatge("imatges/car_Q.png", 50, 100)
+
+#-----Funcions de gestió de interfície-----
 def crear_boto(text, comanda, x, y, ample=200, alt=60, color="#4CAF50"):
     """Crea un botó i el guarda a una llista"""
     boto = Button(tk, text=text, font=("Arial", 20, "bold"),
@@ -32,21 +40,21 @@ def crear_boto(text, comanda, x, y, ample=200, alt=60, color="#4CAF50"):
     return boto
 
 def netejar_interface():
-    """Neteja el canvas i elimina els botons"""
+    #Neteja el canvas i elimina els botons
     w.delete("all")
     for boto in botons_actius:
         boto.destroy()
     botons_actius.clear()
 
 def mostrar_text_centrat(text, y_rel, tamany_font=40, color="black"):
-    """Mostra un text centrat a la pantalla"""
+    #Mostra un text centrat a la pantalla
     w.create_text(ample_window/2, alt_window * y_rel, 
                   text=text, 
                   font=("Arial", tamany_font, "bold"), 
                   fill=color)
 
 def iniciar_partida(nom_ciutat):
-    """Inicia una partida amb l'escenari seleccionat"""
+    #Inicia una partida amb l'escenari seleccionat
     global joc, partida_executant
     
     netejar_interface()
@@ -56,10 +64,9 @@ def iniciar_partida(nom_ciutat):
     screen = Pantalla(WPoint(0,0), WPoint(500,281),
                      ZPoint(0,0), ZPoint(ample_window, alt_window))
     
-    c1 = Cotxe(250,100,15,23,v=1)
-    cotxes = [c1]
+    cotxe = Cotxe(250,100,15,23,v=1)
     
-    joc = Joc(nom_ciutat, cotxes, screen)
+    joc = Joc(nom_ciutat, cotxe, screen)
     
     # Iniciar bucle del joc
     bucle_joc(screen)
@@ -79,12 +86,12 @@ def guanyat(escenari, cotxe):
                      font=("Arial", 16), 
                      fill="black")
     
-    # Crear botons per seleccionar escenari
+    # Botons per a tornar a jugar o anar al menú principal
     crear_boto("Tornar a jugar", lambda: iniciar_partida(escenari), 0.33, 0.75, color="#F44336")
     crear_boto("Inici", mostrar_pantalla_inici, 0.66, 0.75, color="#9E9E9E")
 
 def mostrar_menu_escenari():
-    """Mostra el menú per a seleccionar un escenari"""
+    #Mostra el menú per a seleccionar un escenari
     
     netejar_interface()
     
@@ -103,29 +110,70 @@ def mostrar_instruccions():
     mostrar_text_centrat("INSTRUCCIONS", 0.15)
     
     instruccions = [
-        "1. Utilitza les tecles de fletxa per moure el cotxe",
-        "2. Tens 3 vides. Xocar contra un objecte et pren una vida.",
-        "3. Perds la partida si xoques contra una paret o et quedes sense vides",
-        "4. Té en compte que perds vides en xocar amb obstacles",
-        "",
-        "Prem ESC per sortir del joc en qualsevol moment"
+        "1. Utilitza les fletxes del teclat per moure el cotxe",
+        "2. Perds la partida si xoques contra una paret o et quedes sense vides",
+        "3. Tens 3 vides. Evita els següents obstacles per no perdre una vida:"
     ]
-    
+
     for i, text in enumerate(instruccions):
-        w.create_text(ample_window/2, alt_window * 0.3 + i * 40, 
+        w.create_text(ample_window/4, (alt_window * 0.3 + i * 40)-70, 
                      text=text, 
                      font=("Arial", 16), 
-                     fill="black")
+                     fill="black", anchor="nw")
+
+    #Imatges dels obstacles
+    w.create_image(ample_window/4-50, alt_window/8*3, image=img_porc, anchor="nw")
+    w.create_image(ample_window/4-50, alt_window/8*4, image=img_platan, anchor="nw")
+    w.create_image(ample_window/4-50, alt_window/8*5, image=img_container, anchor="nw")
+    w.create_image(ample_window/4-50, alt_window/8*6, image=img_iaia, anchor="nw")
+    w.create_image(ample_window/2+70, alt_window/8*3, image=img_con, anchor="nw")
+    w.create_image(ample_window/2+70, alt_window/8*4, image=img_guiri, anchor="nw")
+    w.create_image(ample_window/2+70, alt_window/8*6-30, image=img_car, anchor="nw")
+
+    #Descripció dels obstacles
+    w.create_text(ample_window/4+70, alt_window/8*3+30, 
+                     text="Un porc senglar amb pesta porcina", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
     
-    crear_boto("Tornar", mostrar_pantalla_inici, 0.5, 0.85, color="#9E9E9E")
+    w.create_text(ample_window/4+70, alt_window/8*4+25, 
+                     text="Una pela de plàtan", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/4+70, alt_window/8*5+30, 
+                     text="Un container", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/4+70, alt_window/8*6+50, 
+                     text="Una iaia", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/2+180, alt_window/8*3+35, 
+                     text="Un con de trànsit", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/2+180, alt_window/8*4+60, 
+                     text="Un guiri despistat", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/2+180, alt_window/8*6+20, 
+                     text="Altres cotxes circulant", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    crear_boto("Tornar", mostrar_pantalla_inici, 0.90, 0.90, color="#9E9E9E")
 
 def mostrar_pantalla_inici():
-    global pantalla_inici, partida_executant
+    global partida_executant
     
     netejar_interface()
     w.config(bg="white")
-    
-    pantalla_inici = True
+ 
     partida_executant = False
     
     # Títol del joc
@@ -143,6 +191,8 @@ def bucle_joc(screen):
         return
 
     w.delete("all")
+
+    #Colors de fons segons escenari
     if joc.escenari=="UAB":
         w.config(bg="#78CC54")
     if joc.escenari=="Cerdanyola":
@@ -150,45 +200,42 @@ def bucle_joc(screen):
     if joc.escenari=="Barcelona":
         w.config(bg="#F4E786")
     
-    # Dibuixem escenari
-    for i in range(0, len(joc.parets)-1, 2):
+    for i in range(0, len(joc.parets)-1, 2): #Dibuixem carretera
         joc.parets[i].show(joc.parets[i+1], w, screen)
 
-    for i in range(0, len(joc.recompenses)):
+    for i in range(0, len(joc.recompenses)): #Dibuixem recompenses
         joc.recompenses[i].show(w, screen)
 
-    for i in range(0, len(joc.obstacles)):
+    for i in range(0, len(joc.obstacles)): #Dibuixem obstacles
         joc.obstacles[i].show(w, screen)
     
-    #Pintem la línia de meta
-    joc.meta.show(w, screen)
+    joc.meta.show(w, screen) #Pintem la línia de meta
     
     # Controls del cotxe
-    c1 = joc.cotxes[0]
-    c1.reset()  
-    c1.controls()
-    c1.mou()
-    c1.xoc_paret(joc)
-    c1.recompensa_agafada(joc)
-    c1.xoc_obstacle(joc)
-    c1.show(w, screen)
-    c1.mostra_puntuacio(w, ample_window-150, 40)
-    c1.mostra_vides(w, 40, 40)
+    c = joc.cotxe 
+    c.controls()
+    c.mou()
+    c.xoc_paret(joc)
+    c.recompensa_agafada(joc)
+    c.xoc_obstacle(joc)
+    c.show(w, screen)
+    c.mostra_puntuacio(w, ample_window-150, 40)
+    c.mostra_vides(w, 40, 40)
     
     w.update()
     screen.TranslateWorld(1)
 
-    if joc.game_over(c1):
+    if joc.game_over(c):
         partida_executant=False
         game_over(joc.escenari)
 
-    if joc.guanyar(c1):
+    if joc.guanyar(c):
         partida_executant=False
-        guanyat(joc.escenari, c1)
+        guanyat(joc.escenari, c)
     
     # Seguim amb el bucle
     if partida_executant:
-       tk.after(5, lambda: bucle_joc(screen)) #El segon argument ha de ser una referència a una funció
+       tk.after(2, lambda: bucle_joc(screen)) #El segon argument ha de ser una referència a una funció
 
 # Iniciar amb la pantalla d'inici
 mostrar_pantalla_inici()

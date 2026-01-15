@@ -45,6 +45,7 @@ def carrega_imatge(nom, amplada, alçada):
     img = ImageTk.PhotoImage(im)
     return img
 
+#Rotem "angle" graus al voltant de l'eix del punt (x0,y0)
 def rotar_respecte_x0_y0(x, y, angle, x0, y0):
     T=np.array([[1,0,-x0],[0,1,y0],[0,0,1]]) #Matriu de translació de (x0, y0) a l'origen
     T_inv=np.array([[1,0,x0],[0,1,-y0],[0,0,1]])
