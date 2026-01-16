@@ -87,17 +87,9 @@ class Paret:
             fill="#545353"
         )
 
-    def xoca_cotxe(self, cotxe):
-        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        
-        vertexs_cotxe=[V1,V2,V3,V4]
+    def xoca_cotxe(self, cotxe):     
+        vertexs_cotxe=vertexs(cotxe.x, cotxe.y, cotxe.w, cotxe.h, cotxe.angle)
+
         for i in range(0,4):
             j=i+1
             j=j%4
@@ -131,22 +123,9 @@ class Recompensa:
         if self.valor==50:
             w.create_image(p.x, p.y, image=self.img50, anchor="nw")
 
-    def agafada(self, cotxe, joc):
-        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        vertexs_cotxe=[V1,V2,V3,V4]
-        
-        W1=WPoint(self.x,self.y)
-        W2=WPoint(self.x+self.amplada,self.y)
-        W4=WPoint(self.x,self.y+self.alçada)
-        W3=WPoint(self.x+self.amplada,self.y+self.alçada)
-        vertexs_recompensa=[W1,W2,W3,W4]
+    def agafada(self, cotxe, joc):       
+        vertexs_cotxe=vertexs(cotxe.x, cotxe.y, cotxe.w, cotxe.h, cotxe.angle)
+        vertexs_recompensa=vertexs(self.x,self.y,self.amplada,self.alçada,0)
         
         for i in range(0,4):
             ii=i+1
@@ -173,22 +152,18 @@ class Obstacle:
 
     def colisio(self, cotxe, amplada, alçada, joc):
         #Vèrtexs del cotxe
-        V1=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V2=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V4=WPoint(rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        V3=WPoint(rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[0],
-                  -rotar_respecte_x0_y0(cotxe.x+cotxe.w,cotxe.y+cotxe.h, cotxe.angle, cotxe.x+cotxe.w/2, cotxe.y+cotxe.h/2)[1])
-        vertexs_cotxe=[V1,V2,V3,V4]
+        vertexs_cotxe=vertexs(cotxe.x, cotxe.y, cotxe.w, cotxe.h, cotxe.angle)
+        V1=vertexs_cotxe[0]
+        V2=vertexs_cotxe[1]
+        V4=vertexs_cotxe[3]
+        V3=vertexs_cotxe[2]
         
         #Vèrtexs de l'obstacle
-        W1=WPoint(self.x,self.y)
-        W2=WPoint(self.x+self.amplada,self.y)
-        W4=WPoint(self.x,self.y+self.alçada)
-        W3=WPoint(self.x+self.amplada,self.y+self.alçada)
-        vertexs_recompensa=[W1,W2,W3,W4]
+        vertexs_obstacle=vertexs(self.x,self.y,amplada,alçada,0)
+        W1=vertexs_obstacle[0]
+        W2=vertexs_obstacle[1]
+        W4=vertexs_obstacle[3]
+        W3=vertexs_obstacle[2]
 
         #Comprovem si el cotxe està dins de l'obstacle. En cas afirmatiu, detectem col·lisió
         if max(W1.x, W4.x)<=min(V1.x, V4.x) and max(V2.x, V3.x)<=min(W2.x,W3.x) and max(W1.y, W2.y)<=min(V1.y, V2.y) and max(V3.y, V4.y)<=min(W3.y, W4.y):
@@ -205,7 +180,7 @@ class Obstacle:
                 jj=j+1
                 jj=jj%4
                 if linesCollided(vertexs_cotxe[i].x, vertexs_cotxe[i].y, vertexs_cotxe[ii].x, vertexs_cotxe[ii].y,
-                                 vertexs_recompensa[j].x, vertexs_recompensa[j].y, vertexs_recompensa[jj].x, vertexs_recompensa[jj].y):
+                                 vertexs_obstacle[j].x, vertexs_obstacle[j].y, vertexs_obstacle[jj].x, vertexs_obstacle[jj].y):
                     return True
                 
         return False
@@ -215,10 +190,10 @@ class Meta:
         self.x=x
         self.y=y
 
-        self.amplada=screen.LongXZoomToWorld(400) 
+        self.amplada=screen.LongXZoomToWorld(500) 
         self.alçada=screen.LongYZoomToWorld(70)
 
-        self.imatge=carrega_imatge("imatges/meta.png", 400, 70)
+        self.imatge=carrega_imatge("imatges/meta.png", 500, 70)
 
     def show(self, w, screen):
         p=screen.WorldToZoomXY(self.x, self.y)

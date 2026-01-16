@@ -54,3 +54,15 @@ def rotar_respecte_x0_y0(x, y, angle, x0, y0):
     m1=np.dot(T_inv, R)
     m2=np.dot(T,inp)
     return np.dot(m1,m2)
+
+def vertexs(x, y, w, h, angle):
+    V1=WPoint(rotar_respecte_x0_y0(x,y, angle, x+w/2, y+h/2)[0],
+                  -rotar_respecte_x0_y0(x,y, angle, x+w/2, y+h/2)[1])
+    V2=WPoint(rotar_respecte_x0_y0(x+w,y, angle, x+w/2, y+h/2)[0],
+                -rotar_respecte_x0_y0(x+w,y, angle, x+w/2, y+h/2)[1])
+    V4=WPoint(rotar_respecte_x0_y0(x,y+h, angle, x+w/2, y+h/2)[0],
+                -rotar_respecte_x0_y0(x,y+h, angle, x+w/2, y+h/2)[1])
+    V3=WPoint(rotar_respecte_x0_y0(x+w,y+h, angle, x+w/2, y+h/2)[0],
+                -rotar_respecte_x0_y0(x+w,y+h, angle, x+w/2, y+h/2)[1])
+    
+    return [V1,V2,V3,V4]

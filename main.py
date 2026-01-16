@@ -29,6 +29,9 @@ img_iaia=carrega_imatge("imatges/Iaia_1.png", 75, 97)
 img_con=carrega_imatge("imatges/con.png", 60, 75)
 img_guiri=carrega_imatge("imatges/Guiri_1.png", 90, 135)
 img_car=carrega_imatge("imatges/car_Q.png", 50, 100)
+img_coin_10=carrega_imatge("imatges/moneda_10.png", 60, 60)
+img_coin_20=carrega_imatge("imatges/moneda_20.png", 60, 60)
+img_coin_50=carrega_imatge("imatges/moneda_50.png", 60, 60)
 
 #-----Funcions de gestió de interfície-----
 def crear_boto(text, comanda, x, y, ample=200, alt=60, color="#4CAF50"):
@@ -64,7 +67,9 @@ def iniciar_partida(nom_ciutat):
     screen = Pantalla(WPoint(0,0), WPoint(500,281),
                      ZPoint(0,0), ZPoint(ample_window, alt_window))
     
-    cotxe = Cotxe(250,100,15,23,v=1)
+    w=screen.LongXZoomToWorld(60)
+    h=screen.LongYZoomToWorld(120)
+    cotxe = Cotxe(250,100,w,h,v=1)
     
     joc = Joc(nom_ciutat, cotxe, screen)
     
@@ -166,6 +171,52 @@ def mostrar_instruccions():
                      font=("Arial", 16), 
                      fill="black", anchor="w")
     
+    crear_boto("Següent", mostrar_instruccions2, 0.90, 0.80, color="#9E9E9E")
+    crear_boto("Tornar", mostrar_pantalla_inici, 0.90, 0.90, color="#9E9E9E")
+
+def mostrar_instruccions2():
+    netejar_interface()
+    w.config(bg="white")
+    
+    mostrar_text_centrat("INSTRUCCIONS", 0.15)   
+
+    w.create_text(ample_window/4, alt_window * 0.3 -70, 
+                    text="4. Guanya punts recol·lectant monedes. La puntuació per a cada tipus de moneda és:", 
+                    font=("Arial", 16), 
+                    fill="black", anchor="nw")
+
+    #Imatges de les recompenses
+    w.create_image(ample_window/4-100, alt_window/4+50, image=img_coin_10, anchor="nw")
+    w.create_image(ample_window/2-100, alt_window/4+50, image=img_coin_20, anchor="nw")
+    w.create_image(ample_window/4*3-100, alt_window/4+50, image=img_coin_50, anchor="nw")
+
+    #Descripció de les monedes
+    w.create_text(ample_window/4, alt_window/4+80, 
+                     text="10 punts", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/2, alt_window/4+80, 
+                     text="20 punts", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/4*3, alt_window/4+80, 
+                     text="50 punts", 
+                     font=("Arial", 16), 
+                     fill="black", anchor="w")
+    
+    w.create_text(ample_window/4, alt_window * 0.6 -70, 
+                    text="5. Si xoques contra un obstacle perds 50 punts.", 
+                    font=("Arial", 16), 
+                    fill="black", anchor="nw")
+    
+    w.create_text(ample_window/4, alt_window * 0.6, 
+                    text="Prem ESC en qualsevol moment per sortir del joc.", 
+                    font=("Arial", 16), 
+                    fill="black", anchor="nw")
+    
+    crear_boto("Anterior", mostrar_instruccions, 0.90, 0.80, color="#9E9E9E")
     crear_boto("Tornar", mostrar_pantalla_inici, 0.90, 0.90, color="#9E9E9E")
 
 def mostrar_pantalla_inici():
@@ -177,7 +228,7 @@ def mostrar_pantalla_inici():
     partida_executant = False
     
     # Títol del joc
-    mostrar_text_centrat("JOC DE COTXES", 0.2)
+    mostrar_text_centrat("JOC DE COTXES (PITÓN)", 0.2)
     
     # Crear botons del menú principal
     crear_boto("Jugar", mostrar_menu_escenari, 0.25, 0.8, color="#2196F3")
