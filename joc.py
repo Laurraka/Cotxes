@@ -322,8 +322,8 @@ class Turista(Obstacle):
 class CarQLearn(Obstacle):
     def __init__(self, x, y, screen, v=1):
         super().__init__(x, y)
-        self.w=screen.LongXZoomToWorld(50) #width
-        self.h=screen.LongXZoomToWorld(80) #height
+        self.w=screen.LongXZoomToWorld(60) #width
+        self.h=screen.LongXZoomToWorld(120) #height
         self.v=v
         self.angle=-0.4
         self.mort=False
@@ -398,4 +398,5 @@ class CarQLearn(Obstacle):
         for paret in joc.parets:
             if paret.xoca_cotxe(self):
                 self.mort = True
+
         
