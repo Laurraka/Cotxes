@@ -59,7 +59,7 @@ class Pantalla:
 
     def LongYZoomToWorld(self, longY):
         scale_y = (self.wMax.y - self.wMin.y) / (self.zMax.y - self.zMin.y)  
-        return longY*scale_y 
+        return longY*scale_y
     
     def TranslateWorld(self,dy):
         self.wMin.y+=dy

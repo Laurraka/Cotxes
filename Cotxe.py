@@ -13,42 +13,28 @@ class Cotxe:
         self.v=v
         self.angle=0
 
-        self.toca_paret = False
         self.toca_obstacle=False
         self.puntuacio=0
         self.vides=3
+        self.mort=False
 
         self.img_3_cors = carrega_imatge("imatges/3_cors.png", 120, 32)
         self.img_2_cors = carrega_imatge("imatges/2_cors.png", 120, 32)
         self.img_1_cor = carrega_imatge("imatges/1_cor.png", 120, 32)
 
-    def reset(self):
-        self.toca_paret = False
+        self.im = Image.open("imatges/cotxe.png")
+        self.im = self.im.resize((60, 120), Image.NEAREST)
 
     def mou(self):
+        self.x=self.x+self.v*math.sin(self.angle)
         self.y=self.y+self.v
 
     def show(self,w,screen):
-        p1=screen.WorldToZoomXY(self.x,self.y)
-        p2=screen.WorldToZoomXY(self.x+self.w*math.cos(self.angle), self.y-self.w*math.sin(self.angle))
-        p3=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle), self.y+self.h*math.cos(self.angle))
-        p4=screen.WorldToZoomXY(self.x+self.h*math.sin(self.angle)+self.w*math.cos(self.angle), self.y+self.h*math.cos(self.angle)-self.w*math.sin(self.angle))
-        if self.toca_paret:
-            w.create_polygon(
-                p1.x,p1.y,
-                p2.x,p2.y,
-                p4.x,p4.y,
-                p3.x,p3.y,
-                fill="red"
-            )
-        else:
-            w.create_polygon(
-                p1.x,p1.y,
-                p2.x,p2.y,
-                p4.x,p4.y,
-                p3.x,p3.y,
-                fill="green"
-            )
+        centre=screen.WorldToZoomXY(self.x+self.w/2,self.y+self.h/2)
+        
+        im_rotada = self.im.rotate(math.degrees(self.angle), expand=True)
+        self.imatge = ImageTk.PhotoImage(im_rotada)
+        w.create_image(centre.x, centre.y, image=self.imatge, anchor="center")
         
     def mostra_puntuacio(self, w, x, y):
         w.create_text(
@@ -65,17 +51,19 @@ class Cotxe:
             w.create_image(x, y, image=self.img_2_cors, anchor="nw")
         if self.vides==1:
             w.create_image(x, y, image=self.img_1_cor, anchor="nw")
+        if self.vides<1:
+            self.mort=True
     
     def controls(self):
         if keyboard.is_pressed('left'):
-            self.x=self.x-2
+            self.angle-=0.1
         if keyboard.is_pressed('right'):
-            self.x=self.x+2
+            self.angle+=0.1
     
     def xoc_paret(self, joc):
         for paret in joc.parets:
             if paret.xoca_cotxe(self):
-                self.toca_paret = True
+                self.mort = True
 
     def recompensa_agafada(self, joc):
         for rec in joc.recompenses:
@@ -87,9 +75,11 @@ class Cotxe:
             if obs.colisio(self, joc):
                 if self.toca_obstacle==False:
                     self.vides-=1
+                    self.puntuacio=self.puntuacio-50
                     self.toca_obstacle=True
                     return
                 else:
-                    return
-            
+                    return   
+        
         self.toca_obstacle=False
+        

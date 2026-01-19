@@ -10,7 +10,8 @@
     "9":{"tipus": "senglar", "x": -650, "y": 1875, "direccio": 1},
     "10":{"tipus": "contenidor", "x": 280, "y": 2050},
     "11":{"tipus": "platan", "x": 200, "y": 2450},
-    "12":{"tipus": "senglar", "x": 1450, "y": 2600, "direccio": -1}
+    "12":{"tipus": "senglar", "x": 1450, "y": 2600, "direccio": -1},
+    "13":{"tipus": "cotxe", "x": 250, "y": 300}
     },
 "Cerdanyola":{
 	"1":{"tipus": "con", "x": 170, "y": 460},
